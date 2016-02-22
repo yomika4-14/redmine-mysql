@@ -29,7 +29,13 @@ redmine:
     - TZ=Asia/Tokyo
     - REDMINE_PORT=80
     - REDMINE_RELATIVE_URL_ROOT=
-  ports:
-    - "80:80"
   volumes_from:
     - data00redmine
+
+proxy:
+  build: proxy
+  links:
+    - redmine:redmine
+  ports:
+    - "80:80"
+    - "443:443"
