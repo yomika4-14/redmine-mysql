@@ -1,9 +1,18 @@
+data00redmine:
+  image: busybox:buildroot-2014.02
+  volumes:
+    - /mnt/data/redmine/files:/home/redmine/data/files
+    - /mnt/data/redmine/plugins:/home/redmine/data/plugins
+    - /mnt/data/redmine/themes:/home/redmine/data/themes
+
 mysql:
   image: sameersbn/mysql:latest
   environment:
     - DB_USER=redmine
     - DB_PASS=password
     - DB_NAME=redmine_production
+  ports:
+    - "3306:3306"
   volumes:
     - /srv/docker/redmine/mysql:/var/lib/mysql
 
@@ -13,11 +22,9 @@ redmine:
     - mysql:mysql
   environment:
     - TZ=Asia/Tokyo
-
     - REDMINE_PORT=80
     - REDMINE_RELATIVE_URL_ROOT=
-
   ports:
     - "80:80"
-  volumes:
-    - /srv/docker/redmine/redmine:/home/redmine/data
+  volumes_from:
+    - data00redmine
