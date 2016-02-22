@@ -1,3 +1,8 @@
+data00mysql:
+  image: busybox:buildroot-2014.02
+  volumes:
+    - /mnt/data/mysql:/var/lib/mysql
+
 data00redmine:
   image: busybox:buildroot-2014.02
   volumes:
@@ -13,8 +18,8 @@ mysql:
     - DB_NAME=redmine_production
   ports:
     - "3306:3306"
-  volumes:
-    - /srv/docker/redmine/mysql:/var/lib/mysql
+  volumes_from:
+    - data00mysql
 
 redmine:
   image: sameersbn/redmine:2.6.9
